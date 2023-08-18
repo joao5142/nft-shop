@@ -14,6 +14,7 @@ import Head from "next/head";
 import { useShoppingCart } from "use-shopping-cart";
 import { toast } from "react-toastify";
 import { formatNumberToBRLMoney } from "../../utils/numberFormat";
+import { useCart } from "../../hooks/useCart";
 
 interface ProductProps {
   product: {
@@ -27,11 +28,15 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const { addItem } = useShoppingCart();
+  const { addItem } = useCart();
 
   async function handleAddToCart() {
-    addItem(product);
-    toast.success("Adicionado ao carrinho");
+    try {
+      let response = await addItem(product);
+      toast.success("Adicionado ao carrinho");
+    } catch (err) {
+      toast.error(err);
+    }
   }
 
   return (

@@ -19,6 +19,7 @@ import Stripe from "stripe";
 import { useShoppingCart } from "use-shopping-cart";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { useCart } from "../hooks/useCart";
 
 interface HomeProps {
   products: {
@@ -31,7 +32,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const { addItem } = useShoppingCart();
+  const { addItem } = useCart();
   const router = useRouter();
 
   const [sliderRef] = useKeenSlider({
@@ -45,9 +46,13 @@ export default function Home({ products }: HomeProps) {
     router.push("/product/" + productId);
   }
 
-  function handleAddItemToCart(product) {
-    addItem(product);
-    toast.success("Adicionado ao carrinho");
+  async function handleAddItemToCart(product) {
+    try {
+      let response = await addItem(product);
+      toast.success("Adicionado ao carrinho");
+    } catch (err) {
+      toast.error(err);
+    }
   }
 
   return (
