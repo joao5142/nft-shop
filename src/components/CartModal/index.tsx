@@ -31,7 +31,6 @@ export function CartModal({ onClose }: CartModalProps) {
     decrementItem,
     incrementItem,
   } = useShoppingCart();
-  console.log(cartDetails);
 
   function handleRemoveProduct(e, productId) {
     e.preventDefault();
@@ -44,7 +43,6 @@ export function CartModal({ onClose }: CartModalProps) {
         const items = Object.values(cartDetails).map((product) => {
           return { price: product.price_id, quantity: product.quantity };
         });
-        console.log(items);
         const response = await axios.post("/api/checkout", {
           line_items: items,
         });
@@ -58,7 +56,6 @@ export function CartModal({ onClose }: CartModalProps) {
       }
     }
   }
-  console.log(formattedTotalPrice, totalPrice);
   function handleDecrementItem(productId: string, productQuantity: number) {
     if (productQuantity > 1) {
       decrementItem(productId, { count: 1 });

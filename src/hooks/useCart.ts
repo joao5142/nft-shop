@@ -12,7 +12,6 @@ export function useCart() {
       const productCart = cartDetails[product.id] || null;
 
       if (productCart == null || productCart.quantity === 0) {
-        console.log(product);
         addItemCart(product);
         resolve("Adicionado");
       } else if (productCart.quantity < 10) {
